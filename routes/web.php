@@ -13,13 +13,32 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'PrincipalController@principal');
+Route::get('/', 'PrincipalController@principal')->name('site.index');
 
-Route::get('sobre-nos','SobreNosController@sobreNos');
+Route::get('/sobre-nos','SobreNosController@sobreNos')->name('site.sobrenos');
 
-Route::get('contato', 'ContatoController@contato');
+Route::get('/contato', 'ContatoController@contato')->name('site.contato');
 
-Route::get('contato/{nome}/{categoria}/', function(string $nome, int $categoria)
+Route::get('/login', function(){ return 'login';})->name('site.login');
+
+Route::prefix('/app')->group(function()
 {
-    echo "Meu Contato {$nome} {$categoria}";
-})->where('nome', '[A-Za-z]+')->where('categoria','[0-9]+');
+    Route::get('/clientes', function(){ return 'clientes';});
+    Route::get('/fornecedores', function(){ return 'fornecedores';});
+    Route::get('/produtos', function(){ return 'produtos';});
+});
+
+
+
+Route::get('/rota1', function () {
+    echo 'Rota 1';
+})->name('site.rota1');
+
+Route::get('/rota2', function () {
+    return redirect()->route('site.rota1');
+})->name('site.rota2');
+
+
+Route::fallback(function(){
+    echo '<a href="/">clique aqui</a> para voltar ao menu principal.'; 
+});
