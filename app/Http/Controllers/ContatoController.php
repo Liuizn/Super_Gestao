@@ -18,18 +18,24 @@ class ContatoController extends Controller
     public function salvar(Request $request)
     {
 
-        $request->validate([
-            'nome' => 'required',
-            'telefone' => 'required',
-            'email' => 'required',
-            'motivo_contato' => 'required',
-            'mensagem' => 'required'
-        ]);
+        $request->validate(
+            [
+                'nome' => 'required|unique:site_contatos',
+                'telefone' => 'required',
+                'email' => 'email',
+                'motivo_contatos_id' => 'required',
+                'mensagem' => 'required'
+            ],
+            [
+                'nome.required' => 'Campo nome obrigatório.',
+                'nome.unique' => 'Nome já existente..',
 
+                'required' => 'O campo :attribute precisa ser preenchido.'
+            ]
+        );
 
         SiteContato::create($request->all());
-
-        return view('site.contato', ['motivo_contatos' => MotivoContato::all()]);
+        return redirect()->route('site.index');
     }
 }
 
