@@ -19,7 +19,7 @@ class LogAcessoMiddleware
     public function handle($request, Closure $next)
     {
         $ip = $request->server->get('REMOTE_ADDR');
-        LogAcesso::create(array('log'=> "camarada tentou passar aqui tlg?, ip do mano: {$ip     }"));
+        LogAcesso::create(array('log'=> "camarada tentou passar aqui tlg?, ip do mano: {$ip}"));
 
         return Response('Vasco');
     }
